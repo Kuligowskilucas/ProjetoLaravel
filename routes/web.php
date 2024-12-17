@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('admin.clientes');
 });
  
 Route::get('/empresa', function(){
@@ -33,3 +33,34 @@ Route::get('/produto/{id}/{categoria?}', function($id, $categoria = ''){
     return "o id do produto é: {$id}<br>
             e a categoria é: {$categoria}";
 });
+
+Route::redirect('/sobre', '/empresa');
+Route::view('/empresa', 'site/empresa');
+//Route::get('sobre', function(){
+//    return redirect('/empresa');
+//});
+
+Route::get('/news',function(){
+    return view('news');
+})->name('noticias');
+
+Route::get('/novidades', function(){
+    return redirect()->route('noticias');
+});
+
+
+Route::group(['prefix' => 'admin','as' => 'admin.'], function(){
+
+    Route::get('dashboard', function(){
+        return 'dashboard';
+    })->name('dasboard');
+    
+    Route::get('users', function(){
+        return 'users';
+    })->name('users');
+    
+    Route::get('clientes', function(){
+        return 'clientes';
+    })->name('clientes');
+});
+
